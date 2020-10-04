@@ -16,6 +16,7 @@
 
     <% @tweets.each do |tweet| %>
         <span></span>
+        
         <article class="mytwitter-post py-3"> 
             <div class="row justify-content-md-center">
                 <div class="col-1">
@@ -42,7 +43,7 @@
                                     </div>
                                 </div>
                             <% else %>
-                                &nbsp;&nbsp;&nbsp;<%= tweet.content %>
+                                &nbsp;&nbsp;&nbsp;<%= tweet.content.html_safe %>
                             <% end %>
                     </div>
 

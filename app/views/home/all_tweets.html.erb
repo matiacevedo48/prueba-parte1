@@ -1,0 +1,18 @@
+<div class="color-black">
+    <div class="border-down pt-1 pl-4">
+        <h5 class=""><%= link_to '<i class="fas fa-long-arrow-alt-left fa-lg color-blue"></i>'.html_safe, root_path %>&nbsp;&nbsp;Explorar</h5>
+    </div>
+    
+    <% @tweets.each do |tweet| %>
+        <%= render "shared/card_tweet", tweet: tweet %>
+    <% end %>
+    
+    <div class="p-4">
+        <div class="text-center">
+            <%= link_to_prev_page @tweets, "Show less Tweets", class: "btn btn-primary btn-sm text-11" %>
+            <i class="btn btn-light btn-sm text-13 "><%= @tweets.current_page %></i>
+            <%= link_to_next_page @tweets, "Show more Tweets", class:"btn btn-primary btn-sm text-11"%>
+        </div>
+    </div>
+    <%#= paginate @tweets %>
+</div>

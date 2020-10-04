@@ -1,10 +1,35 @@
 class Tweet < ApplicationRecord
+  include ActionView::Helpers::UrlHelper
+  before_destroy :delete_tweet
+  before_save :add_hashtags
+
   belongs_to :user
-  has_many :likes
+  has_many :likes, dependent: :destroy
   has_many :linking_users, :through => :likes, :source => :user
+
   validates :content, presence: true, length: { maximum: 140, too_long: "%{count} maximo de caracteres permitidos" }
 
   paginates_per 50
+
+  scope :tweets_for_me, -> (user) { where(user_id: user.friends.pluck(:friend_id).push(user.id)) }
+
+  def delete_tweet
+    Tweet.where(rt_ref: self.id)
+    Tweet.where(user_id: self.user_id).update_all(rt_ref: nil)
+  end
+
+  def add_hashtags
+    new_array = []
+    self.content.split(" ").each do |word|
+      if word.start_with?("#")
+        word_parsed = word.sub '#','%23'
+        word = link_to(word, Rails.application.routes.url_helpers.root_path + "?search="+word_parsed )
+      end
+      new_array.push(word)
+    end
+
+    self.content = new_array.join(" ")
+  end
 
   def is_liked?(user)
     if self.linking_users.include?(user)
@@ -46,4 +71,5 @@ class Tweet < ApplicationRecord
     list = Tweet.where(rt_ref: self)
     return list
   end
+
 end

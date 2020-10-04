@@ -1,0 +1,52 @@
+<nav class="right-side">
+    <% if user_signed_in? %>
+        <% whoToFollow = ApplicationController.new %>
+        <% not_follow = whoToFollow.user_full_name(current_user.id)%>
+    <% end %>
+    
+    <% if user_signed_in? %>
+
+    <div class="mt-4 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <div class="card text-13" style="width: 100%;">
+                    <div class="card-header">
+                        <strong><span class="text-13">Users to Follow</span></strong>
+                    </div>
+                    <%if user_signed_in? %>
+                        <% not_follow.each do |user| %>
+                             <ul class="list-group list-group-flush">
+                                <li class="list-group-item hashtag-title p-2">
+                                    <div class="row justify-content-md-center align-items-center">
+                                        <div class="col-4">
+                                            <%= link_to (image_tag (user.photo_url), 
+                                                class: 'photo-avatar-post-follow rounded-circle', alt: "Avatar Post"), 
+                                                tweet_detail_path(user.id)
+                                            %>
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="color-black text-11"><strong>@<%= user.username  %></strong></span><br>
+                                        </div>
+                                        <div class="col-auto">
+                                            <%= link_to '<span class="text-white text-8"><i class="fas fa-user-plus text-white"></i>&nbsp;&nbsp;Follow</span>'.html_safe, 
+                                                users_follow_path(user.id), 
+                                                class:"rounded btn btn-primary text-8 text-white", 
+                                                method: :post 
+                                            %>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <% end %>
+
+    
+
+</nav>

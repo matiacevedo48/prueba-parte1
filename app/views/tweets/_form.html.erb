@@ -15,9 +15,9 @@
       <%#= form.label :content, 'What is happening ?' %>
       <%= form.text_area :content , placeholder: 'What is happening ?', required: true, maxlength:"140", class: "text-11 form-control ml-4", style: "width:90%; resize:none;" %>
     </div>
-    <div class="border-up">
+    <div class="border-up text-right">
       <div class="actions mt-2">
-        <%= form.submit "Tweet", class: "btn btn-primary btn-sm text-11"%>
+        <%= form.submit "Tweet", class: "btn btn-primary btn-sm text-11 rounded"%>
       </div>
     </div>
   <% end %>

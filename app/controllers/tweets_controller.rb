@@ -1,6 +1,7 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:show, :edit, :update, :destroy]
   before_action :set_current_tweet, only: [:likes, :retweet]
+  before_action :set_user_id, only: [:detail]
  
   def likes
     if @tweet.is_liked?(current_user)
@@ -30,12 +31,32 @@ class TweetsController < ApplicationController
     end
   end
 
+ def detail
+  if current_user.present?
+    @user = User.find(@id)
+    @following = @user.users_followed
+    @follower = @user.my_follower
+    @likes = @user.my_likes.order(created_at: :desc).page params[:page]
+    @retweets = @user.retweets_give_it_now.order(created_at: :desc).page params[:page]
+    @tweets = @user.my_tweets.order(created_at: :desc).page params[:page]
+    @followed = @user.users_followed.count
+    @follow = Friend.where(friend_id: @user).count
+  else
+    redirect_to new_user_session_path
+  end
+end
+
+
   def index
     @tweets = Tweet.all
   end
 
   def show
-    @tweets = @tweet.list_of_rt
+    if current_user.present?
+      @tweets = @tweet.list_of_rt
+    else
+      redirect_to new_user_session_path
+    end
   end
 
   def new
@@ -93,6 +114,9 @@ class TweetsController < ApplicationController
     end
     def set_current_tweet
       @tweet = Tweet.find(params[:tweet_id])
+    end
+    def set_user_id
+      @id = params[:tweet_id]
     end
     def tweet_params
       params.require(:tweet).permit(:content, :user_id)
