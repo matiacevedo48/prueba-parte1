@@ -1,24 +1,6 @@
-# README
+# LINK DE HEROKU
+https://ancient-waters-56527.herokuapp.com/
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instruction
-
-* ...
+## HITO 3: para crear nuevo tweet desde la API usar ruta 'api/create'
+## Sintaxis de parámetros para crear nuevo tweet (JSON):
+{"tweet": {"content":"prueba", "user_id":1}}
