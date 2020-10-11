@@ -8,7 +8,10 @@ class Tweet < ApplicationRecord
   has_many :linking_users, :through => :likes, :source => :user
 
   validates :content, presence: true, length: { maximum: 140, too_long: "%{count} maximo de caracteres permitidos" }
-
+  
+  #Para API
+  scope :dates, -> (start, finish) { where('created_at >= ? AND created_at <=?', start, finish) }
+  
   paginates_per 50
 
   scope :tweets_for_me, -> (user) { where(user_id: user.friends.pluck(:friend_id).push(user.id)) }

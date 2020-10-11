@@ -11,12 +11,16 @@ Rails.application.routes.draw do
   }
 
   post 'follow/:user_id', to: 'users#follow', as: 'users_follow'
-
   get 'home/index'
-  
   get 'all_tweets', to: 'home#all_tweets', as: 'all_tweets'
   get 'home/profile'
 
   root 'home#index'
+
+  #rutas api
+  resources :api, path: '/api/news'
+  get '/api/:date1/:date2' => 'dates#show'
+  get '/api/create' => 'api#create'
+  
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
